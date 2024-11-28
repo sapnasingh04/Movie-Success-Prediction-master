@@ -1,54 +1,30 @@
 pipeline {
     agent any
-
-    environment {
-        PYTHON_HOME = 'C:\\Users\\SAI MANOHAR\\AppData\\Local\\Programs\\Python\\Python311'
-        PATH = "${PYTHON_HOME};${PYTHON_HOME}\\Scripts;${env.PATH}"
-    }
-
     stages {
-        stage('Clone Repository') {
+        stage('Checkout Code') {
             steps {
-                echo 'Cloning the repository...'
-                git branch: 'main', url: 'https://github.com/sapnasingh04/Movie-Success-Prediction-master.git'
+                git credentialsId: '0a506bdf-ee45-4c45-9c5b-858858b5dd5b', url: 'https://github.com/your-repo-url.git'
             }
         }
         stage('Install Dependencies') {
             steps {
-                echo 'Installing dependencies...'
-                // Use the absolute path to pip
-                bat '"C:\\Users\\SAI MANOHAR\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\pip.exe" install -r requirements.txt'
+                sh 'pip install -r requirements.txt'
             }
         }
         stage('Run Tests') {
             steps {
-                echo 'Running tests...'
-                // Assuming there is a test script to run
-                bat 'python -m pytest'
+                sh 'pytest tests/'  // Adjust to your test structure
             }
         }
         stage('Build') {
             steps {
-                echo 'Building the project...'
-                // Add your build commands here
+                sh 'python manage.py collectstatic --noinput'
             }
         }
         stage('Deploy') {
             steps {
-                echo 'Deploying the application...'
-                // Add your deployment commands here
+                sh './deploy.sh'  // Replace with your deployment script
             }
-        }
-    }
-    post {
-        always {
-            echo 'Pipeline execution completed.'
-        }
-        success {
-            echo 'Pipeline succeeded.'
-        }
-        failure {
-            echo 'Pipeline failed.'
         }
     }
 }
