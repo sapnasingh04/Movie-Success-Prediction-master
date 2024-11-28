@@ -29,8 +29,31 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                // Run your deployment script (make sure this script exists and is executable)
-                sh './deploy.sh'  // Replace with your actual deployment script
+                script {
+                    // Debugging steps to ensure nohup is available
+                    echo "Checking nohup availability"
+                    sh 'which nohup || echo "nohup not found"'
+                    
+                    // Checking if nohup.out exists and has the correct permissions
+                    echo "Checking permissions for nohup.out"
+                    sh 'ls -l nohup.out || echo "nohup.out file does not exist"'
+
+                    // Run the deployment script with error handling
+                    echo "Running deployment script"
+                    sh '''
+                    # Make sure deploy.sh is executable
+                    chmod +x ./deploy.sh
+
+                    # Check if nohup is available and run it
+                    if command -v nohup >/dev/null 2>&1; then
+                        echo "nohup found, using nohup to run deploy script in the background"
+                        nohup ./deploy.sh > nohup.out 2>&1 &
+                    else
+                        echo "nohup not found, running deploy script without nohup"
+                        ./deploy.sh
+                    fi
+                    '''
+                }
             }
         }
     }
