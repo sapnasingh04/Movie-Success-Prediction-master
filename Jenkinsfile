@@ -7,7 +7,7 @@ pipeline {
                 // Pull the latest code from GitHub
                 git branch: 'main', 
                     credentialsId: 'github-token', 
-                    url: 'https://github.com/<your-username>/Movie-Success-Prediction.git'
+                    url: 'https://github.com/sapnasingh04/Movie-Success-Prediction-master.git'
             }
         }
 
