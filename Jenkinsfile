@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git credentialsId: '0a506bdf-ee45-4c45-9c5b-858858b5dd5b', url: 'https://github.com/your-repo-url.git'
+                git credentialsId: '0a506bdf-ee45-4c45-9c5b-858858b5dd5b', url: 'https://github.com/sapnasingh04/Movie-Success-Prediction-master.git'
             }
         }
         stage('Install Dependencies') {
