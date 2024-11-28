@@ -4,49 +4,49 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                // Pull the latest code from GitHub
-                git branch: 'main', 
-                    credentialsId: 'github-token', 
-                    url: 'https://github.com/sapnasingh04/Movie-Success-Prediction-master.git'
+                echo 'Cloning the repository...'
+                git branch: 'main', url: 'https://github.com/sapnasingh04/Movie-Success-Prediction-master.git'
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                // Install Python dependencies (Django and other libraries)
-                sh 'pip install -r requirements.txt'
+                echo 'Installing dependencies...'
+                bat 'pip install -r requirements.txt'
             }
         }
 
         stage('Run Tests') {
             steps {
-                // Run unit tests or other validations
-                sh 'python manage.py test'
+                echo 'Running tests...'
+                bat 'pytest tests/'  // Update the path to your test directory if necessary
             }
         }
 
         stage('Build') {
             steps {
-                // Create database migrations
-                sh 'python manage.py makemigrations'
-                sh 'python manage.py migrate'
+                echo 'Building the project...'
+                // Add your build commands here if applicable
             }
         }
 
         stage('Deploy') {
             steps {
-                // Run the Django application
-                sh 'python manage.py runserver 0.0.0.0:8000 &'
+                echo 'Deploying the project...'
+                // Add your deployment commands here
             }
         }
     }
 
     post {
+        always {
+            echo 'Pipeline execution completed.'
+        }
         success {
-            echo 'Pipeline executed successfully!'
+            echo 'Pipeline succeeded.'
         }
         failure {
-            echo 'Pipeline failed!'
+            echo 'Pipeline failed.'
         }
     }
 }
