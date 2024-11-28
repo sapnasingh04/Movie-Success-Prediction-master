@@ -35,3 +35,7 @@ To run the the app
 ```sh
 $ python manage.py runserver
 ```
+Testing Jenkins Integration
+This section is added to test whether Jenkins automatically triggers a build when changes are pushed to the repository.
+
+Test: This line is added to verify the Jenkins integration.
